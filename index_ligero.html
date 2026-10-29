@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e8efe5">
+<title>Un detalle para ti, querido precursor</title>
+<style>
+:root{--sage:#71866e;--deep:#344b3a;--cream:#fffaf0;--gold:#c9a96b;--rose:#d9a9a0;--ink:#354238}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:radial-gradient(circle at top,#fffdf8 0,#edf2e9 55%,#e1e9de 100%);display:flex;align-items:center;justify-content:center;padding:22px}
+.wrap{width:min(720px,100%);text-align:center}
+.kicker{letter-spacing:.18em;text-transform:uppercase;font:600 11px/1.5 Arial,sans-serif;color:var(--sage)}
+h1{font-size:clamp(30px,7vw,48px);font-weight:normal;line-height:1.1;margin:12px 0;color:var(--deep)}
+.subtitle{font-size:17px;line-height:1.6;margin:0 auto 22px;max-width:480px}
+.gift-stage{min-height:260px;display:flex;align-items:center;justify-content:center;perspective:900px}
+.gift-button{border:0;background:transparent;cursor:pointer;padding:12px;color:inherit;max-width:300px}
+.gift-button:focus-visible,.play:focus-visible,.link:focus-visible{outline:3px solid var(--gold);outline-offset:5px;border-radius:12px}
+.gift{position:relative;width:180px;height:135px;margin:45px auto 20px;filter:drop-shadow(0 14px 12px #31452a20);transition:transform .35s}
+.box{position:absolute;bottom:0;left:0;width:180px;height:105px;background:linear-gradient(135deg,#a7b99e,#718b70);border:2px solid #60795e;border-radius:5px}
+.box:before{content:"";position:absolute;left:68px;top:0;width:34px;height:100%;background:#e7d2a3}
+.lid{position:absolute;z-index:2;left:-9px;top:14px;width:198px;height:32px;border-radius:5px;background:linear-gradient(135deg,#c3d0b9,#8fa58a);border:2px solid #60795e;transform-origin:15% 90%;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.lid:before{content:"";position:absolute;left:80px;top:-1px;width:34px;height:30px;background:#e7d2a3}
+.bow{position:absolute;z-index:3;top:-5px;left:68px;width:48px;height:28px}
+.bow:before,.bow:after{content:"";position:absolute;width:25px;height:18px;border:5px solid #e7d2a3;border-radius:70% 70% 20% 70%;top:0}
+.bow:before{left:-4px;transform:rotate(25deg)}.bow:after{right:-4px;transform:scaleX(-1) rotate(25deg)}
+.gift-button:hover .gift{transform:translateY(-5px)}
+.gift-button.opened .lid{transform:translate(-5px,-80px) rotate(-28deg)}
+.gift-button.opened .bow{transform:translate(-8px,-75px) rotate(-20deg);transition:transform .7s}
+.tap{font:600 12px Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--deep)}
+.card{display:none;text-align:left;background:rgba(255,250,240,.96);border:1px solid #d8dfd1;border-radius:20px;padding:clamp(22px,5vw,42px);box-shadow:0 18px 45px #344b3a14;position:relative;overflow:hidden}
+.card:before{content:"✿";position:absolute;right:19px;top:10px;font-size:46px;color:#d5b6a7;opacity:.55}
+.card.show{display:block;animation:rise .8s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.card h2{text-align:center;color:var(--deep);font-size:clamp(26px,5vw,34px);font-weight:normal;margin:0 0 22px}
+.card p{font-size:17px;line-height:1.75;margin:0 0 15px}
+.verse{margin:24px 0;padding:17px 18px;border-left:3px solid var(--gold);background:#f4f1e5;font-size:18px;line-height:1.55;text-align:center;color:#3e5943}
+.verse small{display:block;margin-top:8px;font:600 11px Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.signoff{text-align:center!important;color:var(--deep);font-style:italic;margin-top:22px!important}
+.music{margin-top:25px;padding-top:20px;border-top:1px solid #d9dfd3;text-align:center}
+.music p{font-size:14px;text-align:center}
+.play{border:0;background:var(--deep);color:#fffaf0;padding:13px 20px;border-radius:999px;font:600 13px Arial,sans-serif;cursor:pointer}
+.play:hover{background:#526b53}
+.note{font:12px/1.5 Arial,sans-serif;color:#6e7d6d;margin-top:10px}
+.link{display:inline-block;margin-top:8px;color:var(--deep);font:600 13px Arial,sans-serif}
+.footer{font:11px Arial,sans-serif;color:#73816f;margin-top:24px;letter-spacing:.04em}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="kicker">Reunión anual de precursores · 2026</div>
+  <h1>Un pequeño detalle<br>para ti 💚</h1>
+  <p class="subtitle">Has dedicado tiempo y cariño a animar a otros. Ahora queremos dejarte unas palabras de ánimo a ti.</p>
+
+  <section class="gift-stage" id="giftStage" aria-label="Regalo sorpresa">
+    <button class="gift-button" id="openGift" aria-label="Abrir la caja de regalo">
+      <div class="gift" aria-hidden="true">
+        <div class="box"></div><div class="lid"></div><div class="bow"></div>
+      </div>
+      <div class="tap">Toca el regalo para abrirlo</div>
+    </button>
+  </section>
+
+  <article class="card" id="letter" aria-live="polite">
+    <h2>Querido precursor,<br>querida precursora</h2>
+    <p>En medio de tus ocupaciones, queremos recordarte lo valioso que es el amor que demuestras por Jehová y por las personas.</p>
+    <p>Puede que no siempre veas los resultados de tus esfuerzos, y que algunos días termines cansado. Pero cada palabra amable, cada conversación y cada paso que das por amor a Jehová tienen valor para él.</p>
+    <p>Cuando necesites nuevas fuerzas, acércate a Jehová. Él conoce tu corazón y nunca pasa por alto tu amor ni tu fidelidad.</p>
+    <div class="verse">“Dios no es injusto para olvidar las obras de ustedes y el amor que demostraron por su nombre”.<small>Hebreos 6:10</small></div>
+    <p>Sigue adelante a tu ritmo, con alegría y confianza. Tu labor no es en vano, y nunca estás solo: Jehová ve tus esfuerzos y puede darte las fuerzas que necesitas para continuar.</p>
+    <p class="signoff">Gracias por dar de ti con tanto cariño.<br>Que Jehová siga bendiciendo tu hermosa labor.</p>
+    <div class="music">
+      <p><strong>🎵 Un regalo para escuchar</strong><br>La canción de los precursores, especialmente para ti.</p>
+      <audio id="precursorSong" preload="none" controls src="sjjc_S_057.mp3">Tu navegador no puede reproducir este audio.</audio>
+      <div class="note">Pulsa reproducir para escuchar la canción. El audio se carga por separado para que la página sea más ligera.</div>
+    </div>
+  </article>
+  <div class="footer">Con cariño cristiano · Reunión anual de precursores 2026</div>
+</main>
+<script>
+const opener = document.getElementById('openGift');
+const stage = document.getElementById('giftStage');
+const letter = document.getElementById('letter');
+opener.addEventListener('click', () => {
+  opener.classList.add('opened');
+  opener.querySelector('.tap').textContent = 'Tu mensaje está aquí 💚';
+  setTimeout(() => {
+    stage.style.display = 'none';
+    letter.classList.add('show');
+    letter.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 650);
+});
+</script>
+</body>
+</html>
